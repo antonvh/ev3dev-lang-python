@@ -17,4 +17,4 @@ for i in range(1000):
 
 td = time.time() - t
 
-print "Read/write time per action:", td
+print "Read/write time per action (ms):", td/3

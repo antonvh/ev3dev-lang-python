@@ -129,6 +129,8 @@ def list_device_names(class_path, name_pattern, **kwargs):
 # -----------------------------------------------------------------------------
 # Define the base class from which all other ev3dev classes are defined.
 
+f_cache = FileCache()
+
 class Device(object):
     """The ev3dev device base class"""
 
@@ -162,7 +164,7 @@ class Device(object):
         """
 
         classpath = abspath(Device.DEVICE_ROOT_PATH + '/' + class_name)
-        self._attribute_cache = FileCache()
+        #self._attribute_cache = FileCache()
 
         def get_index(file):
             match = Device._DEVICE_INDEX.match(file)
@@ -197,11 +199,11 @@ class Device(object):
 
     def _get_attribute(self, attribute):
         """Device attribute getter"""
-        return self._attribute_cache.read(abspath(self._path + '/' + attribute))
+        return f_cache.read(abspath(self._path + '/' + attribute))
 
     def _set_attribute(self, attribute, value):
         """Device attribute setter"""
-        self._attribute_cache.write(abspath(self._path + '/' + attribute), value)
+        f_cache.write(abspath(self._path + '/' + attribute), value)
 
     def get_attr_int(self, attribute):
         return int(self._get_attribute(attribute))
