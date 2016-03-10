@@ -175,6 +175,7 @@ class Device(object):
 
         if name_exact:
             self._path = classpath + '/' + name_pattern
+            self._abspath = abspath(self._path)
             self._device_index = get_index(name_pattern)
             self.connected = True
         else:
@@ -199,11 +200,11 @@ class Device(object):
 
     def _get_attribute(self, attribute):
         """Device attribute getter"""
-        return f_cache.read(abspath(self._path + '/' + attribute))
+        return f_cache.read(self._abspath + '/' + attribute)
 
     def _set_attribute(self, attribute, value):
         """Device attribute setter"""
-        f_cache.write(abspath(self._path + '/' + attribute), value)
+        f_cache.write(self._abspath + '/' + attribute, value)
 
     def get_attr_int(self, attribute):
         return int(self._get_attribute(attribute))
