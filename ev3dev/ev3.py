@@ -47,60 +47,52 @@ class Leds(object):
 
 # ~autogen led-colors platforms.ev3.led>currentClass
 
-    red_left = Led(name='ev3-left0:red:ev3dev')
-    red_right = Led(name='ev3-right0:red:ev3dev')
-    green_left = Led(name='ev3-left1:green:ev3dev')
-    green_right = Led(name='ev3-right1:green:ev3dev')
+    red_left = Led(name_pattern='ev3:left:red:ev3dev')
+    red_right = Led(name_pattern='ev3:right:red:ev3dev')
+    green_left = Led(name_pattern='ev3:left:green:ev3dev')
+    green_right = Led(name_pattern='ev3:right:green:ev3dev')
+
+    LEFT = ( red_left, green_left, )
+    RIGHT = ( red_right, green_right, )
+
+    RED = ( 1, 0, )
+    GREEN = ( 0, 1, )
+    AMBER = ( 1, 1, )
+    ORANGE = ( 1, 0.5, )
+    YELLOW = ( 0.5, 1, )
 
     @staticmethod
-    def mix_colors(red, green):
-        Leds.red_left.brightness_pct = red
-        Leds.red_right.brightness_pct = red
-        Leds.green_left.brightness_pct = green
-        Leds.green_right.brightness_pct = green
+    def set_color(group, color, pct=1):
+        """
+        Sets brigthness of leds in the given group to the values specified in
+        color tuple. When percentage is specified, brightness of each led is
+        reduced proportionally.
+
+        Example::
+
+            Leds.set_color(LEFT, AMBER)
+        """
+        for l, v in zip(group, color):
+            l.brightness_pct = v * pct
 
     @staticmethod
-    def set_red(pct):
-        Leds.mix_colors(red=1 * pct, green=0 * pct)
+    def set(group, **kwargs):
+        """
+        Set attributes for each led in group.
 
-    @staticmethod
-    def red_on():
-        Leds.set_red(1)
+        Example::
 
-    @staticmethod
-    def set_green(pct):
-        Leds.mix_colors(red=0 * pct, green=1 * pct)
-
-    @staticmethod
-    def green_on():
-        Leds.set_green(1)
-
-    @staticmethod
-    def set_amber(pct):
-        Leds.mix_colors(red=1 * pct, green=1 * pct)
-
-    @staticmethod
-    def amber_on():
-        Leds.set_amber(1)
-
-    @staticmethod
-    def set_orange(pct):
-        Leds.mix_colors(red=1 * pct, green=0.5 * pct)
-
-    @staticmethod
-    def orange_on():
-        Leds.set_orange(1)
-
-    @staticmethod
-    def set_yellow(pct):
-        Leds.mix_colors(red=0.5 * pct, green=1 * pct)
-
-    @staticmethod
-    def yellow_on():
-        Leds.set_yellow(1)
+            Leds.set(LEFT, brightness_pct=0.5, trigger='timer')
+        """
+        for led in group:
+            for k in kwargs:
+                setattr(led, k, kwargs[k])
 
     @staticmethod
     def all_off():
+        """
+        Turn all leds off
+        """
         Leds.red_left.brightness = 0
         Leds.red_right.brightness = 0
         Leds.green_left.brightness = 0
@@ -116,12 +108,60 @@ class Button(ButtonEVIO):
 
 # ~autogen button-property platforms.ev3.button>currentClass
 
-    on_up = None
-    on_down = None
-    on_left = None
-    on_right = None
-    on_enter = None
-    on_backspace = None
+    @staticmethod
+    def on_up(state):
+        """
+        This handler is called by `process()` whenever state of 'up' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
+    @staticmethod
+    def on_down(state):
+        """
+        This handler is called by `process()` whenever state of 'down' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
+    @staticmethod
+    def on_left(state):
+        """
+        This handler is called by `process()` whenever state of 'left' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
+    @staticmethod
+    def on_right(state):
+        """
+        This handler is called by `process()` whenever state of 'right' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
+    @staticmethod
+    def on_enter(state):
+        """
+        This handler is called by `process()` whenever state of 'enter' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
+    @staticmethod
+    def on_backspace(state):
+        """
+        This handler is called by `process()` whenever state of 'backspace' button
+        has changed since last `process()` call. `state` parameter is the new
+        state of the button.
+        """
+        pass
+
 
     _buttons = {
             'up': {'name': '/dev/input/by-path/platform-gpio-keys.0-event', 'value': 103},
@@ -134,26 +174,44 @@ class Button(ButtonEVIO):
 
     @property
     def up(self):
+        """
+        Check if 'up' button is pressed.
+        """
         return 'up' in self.buttons_pressed
 
     @property
     def down(self):
+        """
+        Check if 'down' button is pressed.
+        """
         return 'down' in self.buttons_pressed
 
     @property
     def left(self):
+        """
+        Check if 'left' button is pressed.
+        """
         return 'left' in self.buttons_pressed
 
     @property
     def right(self):
+        """
+        Check if 'right' button is pressed.
+        """
         return 'right' in self.buttons_pressed
 
     @property
     def enter(self):
+        """
+        Check if 'enter' button is pressed.
+        """
         return 'enter' in self.buttons_pressed
 
     @property
     def backspace(self):
+        """
+        Check if 'backspace' button is pressed.
+        """
         return 'backspace' in self.buttons_pressed
 
 

@@ -35,10 +35,10 @@ OUTPUT_B = 'ttyAMA0:outB'
 OUTPUT_C = 'ttyAMA0:outC'
 OUTPUT_D = 'ttyAMA0:outD'
 
-INPUT_1 = 'ttyAMA0:in1'
-INPUT_2 = 'ttyAMA0:in2'
-INPUT_3 = 'ttyAMA0:in3'
-INPUT_4 = 'ttyAMA0:in4'
+INPUT_1 = 'in1'
+INPUT_2 = 'in2'
+INPUT_3 = 'in3'
+INPUT_4 = 'in4'
 
 
 class Leds(object):
@@ -48,26 +48,48 @@ class Leds(object):
 
 # ~autogen led-colors platforms.brickpi.led>currentClass
 
-    blue_one = Led(name='brickpi1:blue:ev3dev')
-    blue_two = Led(name='brickpi2:blue:ev3dev')
+    blue_led1 = Led(name_pattern='brickpi1:blue:ev3dev')
+    blue_led2 = Led(name_pattern='brickpi2:blue:ev3dev')
+
+    LED1 = ( blue_led1, )
+    LED2 = ( blue_led2, )
+
+    BLUE = ( 1, )
 
     @staticmethod
-    def mix_colors(blue):
-        Leds.blue_one.brightness_pct = blue
-        Leds.blue_two.brightness_pct = blue
+    def set_color(group, color, pct=1):
+        """
+        Sets brigthness of leds in the given group to the values specified in
+        color tuple. When percentage is specified, brightness of each led is
+        reduced proportionally.
+
+        Example::
+
+            Leds.set_color(LEFT, AMBER)
+        """
+        for l, v in zip(group, color):
+            l.brightness_pct = v * pct
 
     @staticmethod
-    def set_blue(pct):
-        Leds.mix_colors(blue=1 * pct)
+    def set(group, **kwargs):
+        """
+        Set attributes for each led in group.
 
-    @staticmethod
-    def blue_on():
-        Leds.set_blue(1)
+        Example::
+
+            Leds.set(LEFT, brightness_pct=0.5, trigger='timer')
+        """
+        for led in group:
+            for k in kwargs:
+                setattr(led, k, kwargs[k])
 
     @staticmethod
     def all_off():
-        Leds.blue_one.brightness = 0
-        Leds.blue_two.brightness = 0
+        """
+        Turn all leds off
+        """
+        Leds.blue_led1.brightness = 0
+        Leds.blue_led2.brightness = 0
 
 
 # ~autogen

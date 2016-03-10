@@ -8,10 +8,7 @@
 Module interface
 ----------------
 
-.. toctree::
-   :maxdepth: 2
-
-.. automodule:: ev3dev
+.. automodule:: ev3dev.ev3
 
 .. autosummary::
     :nosignatures:
@@ -33,6 +30,7 @@ Module interface
     InfraredSensor
     RemoteControl
     Led
+    Leds
     PowerSupply
     Button
     Sound
@@ -104,6 +102,7 @@ Sensors
 
 .. autoclass:: RemoteControl
     :members:
+    :inherited-members:
 
 Other
 ^^^^^
@@ -111,11 +110,15 @@ Other
 .. autoclass:: Led
     :members:
 
+.. autoclass:: Leds
+    :members:
+
 .. autoclass:: PowerSupply
     :members:
 
 .. autoclass:: Button
     :members:
+    :inherited-members:
 
 .. autoclass:: Sound
     :members:
