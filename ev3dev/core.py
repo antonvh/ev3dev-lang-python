@@ -175,13 +175,14 @@ class Device(object):
 
         if name_exact:
             self._path = classpath + '/' + name_pattern
-            self._abspath = abspath(self._path)
+            #self._abspath = abspath(self._path)
             self._device_index = get_index(name_pattern)
             self.connected = True
         else:
             try:
                 name = next(list_device_names(classpath, name_pattern, **kwargs))
                 self._path = classpath + '/' + name
+                #self._abspath = abspath(self._path)
                 self._device_index = get_index(name)
                 self.connected = True
             except StopIteration:
@@ -200,11 +201,11 @@ class Device(object):
 
     def _get_attribute(self, attribute):
         """Device attribute getter"""
-        return f_cache.read(self._abspath + '/' + attribute)
+        return f_cache.read(self._path + '/' + attribute)
 
     def _set_attribute(self, attribute, value):
         """Device attribute setter"""
-        f_cache.write(self._abspath + '/' + attribute, value)
+        f_cache.write(self._path + '/' + attribute, value)
 
     def get_attr_int(self, attribute):
         return int(self._get_attribute(attribute))
