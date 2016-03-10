@@ -79,16 +79,12 @@ class FileCache(object):
         return f
 
     def read(self, path):
-        f = self.file_handle(path)
-
-        f.seek(0)
-        return f.read().decode().strip()
+        self.file_handle(path).seek(0)
+        return self.file_handle(path).read().decode().strip()
 
     def write(self, path, value):
-        f = self.file_handle(path)
-
-        f.seek(0)
-        f.write(value.encode())
+        self.file_handle(path).seek(0)
+        self.file_handle(path).write(value.encode())
 
 
 # -----------------------------------------------------------------------------
