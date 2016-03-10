@@ -6,7 +6,7 @@ import time
 import ev3dev.auto as ev3
 
 m = ev3.Motor(ev3.OUTPUT_A)
-s = ev3.Sensor(ev3.INPUT_1)
+s = ev3.GyroSensor(ev3.INPUT_1)
 
 t = time.time()
 
